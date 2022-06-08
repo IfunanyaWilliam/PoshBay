@@ -1,0 +1,34 @@
+﻿@model IEnumerable<PoshBay.Data.Models.Category>
+
+<h4>@TempData["Seccess"]</h4>
+<h3>@TempData["Delete-Success"] </h3>
+
+
+<p>
+     @Html.ActionLink("Create New", "Create")
+ </p>
+
+ <div>
+    @* <form> *@
+         <table class="table">
+            <tr>
+              <th>
+                 @Html.DisplayNameFor(model => model)
+              </th>
+              <th></th>
+            </tr>
+            @foreach(var item in Model)
+            {
+            <tr>
+                <td>
+                     @item.Name
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.CategoryId}) |
+                    @Html.ActionLink("Delete", "Delete", new {id = item.CategoryId}) 
+                </td>
+            </tr>      
+          }
+        </table>
+   @*  </form> *@
+ </div>

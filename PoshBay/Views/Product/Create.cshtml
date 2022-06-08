@@ -1,0 +1,124 @@
+﻿@model PoshBay.Data.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Create a New Product";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<section>
+    <div class="container">
+        <form enctype="multipart/form-data" method="post" class="row d-flex justify-content-center align-items-center h-100" 
+                        asp-controller="Product" asp-action="Create">
+            <div class="col-xl-9">
+
+                <h1 class="text-black mb-4">Create a new Product</h1>
+                @*Display an error message if image could not be added*@
+                 <span class="text-danger my-2">@TempData["Error"]</span>
+                 
+                 
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body">
+
+                        <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="Name" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <input asp-for="Name" type="text" class="form-control form-control-lg" placeholder="First Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                        <hr class="mx-n3"><div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+                                
+                                <label asp-for="Price" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <input asp-for="Price" type="text" class="form-control form-control-lg" placeholder="Last Name" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        <hr class="mx-n3"><div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="QuantityInStock" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <input asp-for="QuantityInStock" type="text" class="form-control form-control-lg" placeholder="User Name" />
+                                <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        <hr class="mx-n3"><div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="Category" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <select asp-for="Category" type="text" class="form-control form-control-lg">
+                                    <option value="Phone">IPhone XIII</option>
+                                    <option value="Laptop">HP Spectra</option>
+                                </Select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+
+                        <hr class="mx-n3">
+
+                        <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="Description" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <textarea asp-for="Description" type="email" class="form-control form-control-lg" placeholder="Description of the Product" ></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        <hr class="mx-n3">
+
+
+                        <hr class="mx-n3">
+                        <div class="custom-file w-100">
+                            <label asp-for="ImagePath" class="mb-0 custom-file-label"></label>
+                            <input asp-for="ImagePath" type="file" class="custom-file-input" />
+                            <span asp-validation-for="ImagePath"></span>
+
+                        </div>
+
+                        <hr class="mx-n3">
+                        
+                        <div class="px-5 py-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,39 @@
+﻿
+@model PoshBay.Data.Models.Category
+
+
+<div class="w-100 d-flex justify-content-center">
+    <form method="post" asp-controller="Category" asp-action="Create" class="w-50 ">
+        <input type="hidden" asp-for="UserId" value="user"/>
+        <span>@TempData["Error"]</span>
+
+        <div class="border p-3 mt-5">
+            <div class="row pb-3">
+                <h2 class="text-primary text-center">Create Category</h2>
+                <hr/>
+            </div>
+            <div asp-validation-summary="All"></div>
+
+            <div class="row mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="row mb-3">
+                <button class="btn btn-success" type="submit">Create</button>
+            </div>
+       
+        </div>
+        <div class="mt-5">
+            <a asp-action="List" asp-controller="Category">Back to List</a>
+        </div>
+    </form>
+
+</div>
+@section scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
