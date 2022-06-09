@@ -43,7 +43,7 @@ namespace PoshBay.Repositories
 
         public async Task<bool> EmailExisAsync(string email)
         {
-            var emailExist = _context.ApplicationUsers.FirstOrDefault(e => e.Email == email);
+            var emailExist = await _context.ApplicationUsers.FirstOrDefaultAsync(e => e.Email == email);
             if(emailExist is null)
             {
                 return false;

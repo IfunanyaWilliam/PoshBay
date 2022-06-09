@@ -1,4 +1,5 @@
 ﻿using PoshBay.Data.Models;
+using PoshBay.Data.ViewModels;
 
 namespace PoshBay.Contracts
 {

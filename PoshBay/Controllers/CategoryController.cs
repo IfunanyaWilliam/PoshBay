@@ -63,30 +63,36 @@ namespace PoshBay.Controllers
                 TempData["Error"] = "Category not found";
                 return View();
             }
-            var model = _mapper.Map<CategoryViewModel>(category);
+            var model = _mapper.Map<CategoryEditViewModel>(category);
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CategoryViewModel model)
+        public async Task<IActionResult> Edit(CategoryEditViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            var category = await _categoryRepository.GetByIdAsync(model.CategoryId);
-            category.Name = model.Name;
-            var result = await _categoryRepository.UpdateAsync(category);
+            
+            var categoryToModify = await _categoryRepository.GetByIdAsync(model.CategoryId);
+            if (categoryToModify == null)
+            {
+                TempData["Error"] = "Category not found";
+                return View(model);
+            }
+            categoryToModify.Name = model.Name;
+            var result = await _categoryRepository.UpdateAsync(categoryToModify);
             if (!result)
             {
                 TempData["Error"] = "Category could not be updated";
-                return View(category);
+                return View(categoryToModify);
             }
-            var message = TempData["Success"] = "Category successfully updated";
+            
+            TempData["Success"] = "Category successfully updated";
             return RedirectToAction("List");
-            return await Task.Run(() => Ok());
+            
         }
 
         public async Task<IActionResult> Delete(string id)

@@ -1,4 +1,4 @@
-﻿@model PoshBay.Data.ViewModels.CategoryViewModel
+﻿@model PoshBay.Data.ViewModels.CategoryEditViewModel
 
 
 <div class="w-100 d-flex justify-content-center">
@@ -12,13 +12,14 @@
             </div>
             <div asp-validation-summary="All"></div>
             
+            <input  hidden asp-for="CategoryId" value="@Model.CategoryId" />
             <div class="row mb-3">
                 <label asp-for="@Model.Name"></label>
                 <input asp-for="@Model.Name" class="form-control" value="@Model.Name"/>
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
-            <input hidden asp-for="CategoryId" value="@Model.CategoryId" />
-            <input hidden asp-for="UserName" value="user" />
+            
+            <input hidden asp-for="CreatededBy" value="user" />
             <div class="row mb-3">
                 <button class="btn btn-success" type="submit">Update</button>
             </div>

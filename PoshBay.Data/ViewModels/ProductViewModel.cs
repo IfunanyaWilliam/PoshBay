@@ -1,6 +1,8 @@
-﻿using PoshBay.Data.Models;
+﻿using Microsoft.AspNetCore.Http;
+using PoshBay.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -11,11 +13,11 @@ namespace PoshBay.Data.ViewModels
     public class ProductViewModel
     {
         [Required(ErrorMessage = "Product name is required")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
 
         [Required(ErrorMessage = "Product description is required")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         
         [Required(ErrorMessage = "Please enter the price")]
@@ -27,10 +29,11 @@ namespace PoshBay.Data.ViewModels
 
         
         [Required(ErrorMessage = "Please upload an image of the product")]
-        public string ImagePath { get; set; }
+        public IFormFile? ImagePath { get; set; }
         
 
-        [Required(ErrorMessage = "Please enter the category of the product")]
-        public Category Category { get; set; }
+        [Required(ErrorMessage = "Please Select the category of the product")]
+        [DisplayName("Category")]
+        public string? CategoryId { get; set; }
     }
 }

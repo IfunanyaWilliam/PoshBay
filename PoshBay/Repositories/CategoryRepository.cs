@@ -3,6 +3,7 @@ using PoshBay.Contracts;
 using PoshBay.Data;
 using PoshBay.Data.Data;
 using PoshBay.Data.Models;
+using PoshBay.Data.ViewModels;
 using System.Linq;
 
 namespace PoshBay.Repositories
@@ -53,7 +54,6 @@ namespace PoshBay.Repositories
             //Update the Category in the database;
             _context.Categories.Update(category);
             return await _context.SaveChangesAsync() > 0;
-
         }
 
         public async Task<bool> DeleteAsync(string id)

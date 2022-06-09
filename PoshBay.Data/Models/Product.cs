@@ -14,14 +14,14 @@ namespace PoshBay.Data.Models
         [Key]
         public string ProductId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
         
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Price { get; set; }
         public int QuantityInStock { get; set; }
-        public string ImagePath { get; set; }
-        public Category Category { get; set; }
+        public string? ImagePath { get; set; }
+        public string? CategoryId { get; set; }
     }
 }

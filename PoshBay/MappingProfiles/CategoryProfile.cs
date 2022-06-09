@@ -8,9 +8,10 @@ namespace PoshBay.Profile
     {
         public CategoryProfile()
         {
-            CreateMap<CategoryViewModel, Category>()
-                            .ForMember(d => d.CreatededBy, opt => opt.MapFrom(x => x.UserName))
-                            .ReverseMap();
+            CreateMap<CategoryViewModel, Category>().ReverseMap();
+            CreateMap<CategoryEditViewModel, Category>();
+
+            CreateMap<Category, CategoryEditViewModel>();
         }
     }
 }

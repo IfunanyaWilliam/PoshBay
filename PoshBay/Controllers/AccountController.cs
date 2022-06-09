@@ -62,14 +62,14 @@ namespace PoshBay.Controllers
                 return View(model);
             }
 
-            //Get user email and password to compose email body
 
+            //Get user email and password to compose email body
             var emailSuccessfullySent = await _emailService.SendEmail(model);
             if (emailSuccessfullySent)
             {
                 var appUser = _mapper.Map<ApplicationUser>(model);
                 _accRepo.Add(appUser);
-                TempData["Success"] = "registered successfully.";
+                TempData["Success"] = "Registeration Successful.";
                 return RedirectToAction("Index", "Home");
             }
             TempData["Error"] = "Registration Unsuccessful. Try again.";

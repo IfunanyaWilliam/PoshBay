@@ -106,7 +106,7 @@ namespace PoshBay.Services
             string body = $"<div>" +
                  $"<h4>Welcome to PoshBay.</h4>" +
                  $"<p>While we hold it to be true that money cannot buy everything.</p>" +
-                 $"<pBut for all the good things in life that money can buy, <strong>Think PoshBay</Strong>.</p>" +
+                 $"<p>But for all the good things in life that money can buy, <strong>Think PoshBay</Strong>.</p><br/>" +
                  $"<p>Your login credentials are as follow:<p>" +
                  $"<div><strong>Full Name:</strong> {model.FullName}</div>" +
                  $"<div><strong>Email:</strong> {model.Email}</div>"+
