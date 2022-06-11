@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit Product";
 }
 
-<h3>@TempData["Error"]</h3>
+
 
 <section>
     <div class="container">
@@ -18,7 +18,7 @@
                  
                 <div class="card" style="border-radius: 15px;">
                     <div class="card-body">
-                        
+                        <input hidden asp-for="@Model.ProductId" value="@Model.ProductId" />
                         <div class="row align-items-center pt-4 pb-3">
                             <div class="col-md-3 ps-5">
 
@@ -26,7 +26,6 @@
 
                             </div>
                             <div class="col-md-9 pe-5">
-                                <input hidden asp-for="@Model.ProductId" />
                                 <input asp-for="@Model.Name" type="text" class="form-control form-control-lg" value="@Model.Name" />
                                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
 
@@ -107,9 +106,9 @@
                                 <span asp-validation-for="@Model.ImagePath"></span>
                             </div>
                             <div class="">
-                                <label class="mb-0 custom-file-label"></label>
-                                <input type="file" class="custom-file-input" /> 
-                                <span asp-validation-for="@Model.ImagePath"></span>
+                                <label asp-for="@Model.NewImagePath" class="mb-0 custom-file-label"></label>
+                                <input asp-for="@Model.NewImagePath" type="file" class="custom-file-input" /> 
+                                <span asp-validation-for="@Model.NewImagePath"></span>
                             </div>
 
                         </div>

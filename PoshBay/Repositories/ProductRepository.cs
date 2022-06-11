@@ -45,9 +45,9 @@ namespace PoshBay.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoryAsync() 
+        public IEnumerable<Category> GetAllCategory() 
         {
-            return await _context.Categories.ToListAsync();
+            return  _context.Categories.ToList();
         }
     }
 }

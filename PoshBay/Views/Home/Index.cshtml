@@ -13,7 +13,7 @@
             <div class="card-body form-control">
                 <h4 class="card-title">@item.Name</h4>
                 <p class="card-text">Price: #@item.Price.ToString(".00")</p> 
-                <a asp-action="Detail" asp-controller="Product" asp-route-productId="@item.ProductId" class="btn btn-primary">Details</a>
+                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary">Details</a>
             </div>
         </div>
     }

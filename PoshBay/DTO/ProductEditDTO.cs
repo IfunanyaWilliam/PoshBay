@@ -23,6 +23,9 @@ namespace PoshBay.DTO
         public int QuantityInStock { get; set; }
 
         public string? ImagePath { get; set; }
+
+        //Get the new file to be uploaded
+        public IFormFile? NewImagePath { get; set; }
         public string? CategoryId { get; set; }
     }
 }

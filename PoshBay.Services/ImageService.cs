@@ -2,11 +2,12 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
 
 namespace PoshBay.Services
 {
@@ -35,5 +36,6 @@ namespace PoshBay.Services
             return uploadResult.Url.AbsoluteUri;
 
         }
+
     }
 }

@@ -10,6 +10,6 @@ namespace PoshBay.Contracts
         Task<bool> UpdateAsync(Product product);
         void Delete(int id);
 
-        Task<IEnumerable<Category>> GetAllCategoryAsync();
+        IEnumerable<Category> GetAllCategory();
     }
 }

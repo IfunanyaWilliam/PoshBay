@@ -5,8 +5,6 @@ using PoshBay.Data.Models;
 using PoshBay.Data.ViewModels;
 using PoshBay.DTO;
 using PoshBay.Services;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace PoshBay.Controllers
 {
@@ -27,7 +25,7 @@ namespace PoshBay.Controllers
         
         public async Task<IActionResult> Create()
         {
-            ViewBag.Message = await _productRepo.GetAllCategoryAsync();
+            ViewBag.Message =  _productRepo.GetAllCategory();
             var Categories = ViewBag.Message;
             //Console.WriteLine(ViewBag.Message);
             return View();
@@ -74,7 +72,7 @@ namespace PoshBay.Controllers
         {
             var product = await _productRepo.GetByIdAsync(id);
             var prodToDTO = _mapper.Map<ProductEditDTO>(product);
-            ViewBag.Message = await _productRepo.GetAllCategoryAsync();
+            ViewBag.Message =  _productRepo.GetAllCategory();
             return View(prodToDTO);
         }
 
@@ -83,15 +81,52 @@ namespace PoshBay.Controllers
         public async Task<IActionResult> Edit(ProductEditDTO product)
         {
 
-            var productToEdit = _productRepo.GetByIdAsync(product.ProductId);
+            var productToEdit = await _productRepo.GetByIdAsync(product.ProductId);
             if (productToEdit == null)
             {
-                TempData["Error"] = "Product could not be found";
+                TempData["Error"] = "Product could not be Modified";
 
-                //ViewBag.Message = await _productRepo.GetAllCategoryAsync();
+                ViewBag.Message =  _productRepo.GetAllCategory();
+                //var prod = _mapper.Map<ProductEditDTO>(productToEdit);
                 return View(product);
             }
-            return RedirectToAction("Index", "Home");
+
+            if (product.NewImagePath != null || product.NewImagePath?.Length > 0)
+            {
+                TempData["Image"] = "Image file selected";
+                var filePath = Path.GetTempFileName();
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await product.NewImagePath.CopyToAsync(stream);
+                }
+                var imageUplaodURL = await _imageService.UploadImage(filePath);
+
+                if(imageUplaodURL == null)
+                {
+                    //Map product back to productDTO and return to view
+                    var prodToDTO = _mapper.Map<ProductEditDTO>(productToEdit);
+                    ViewBag.Message = _productRepo.GetAllCategory(); 
+                    TempData["Error"] = "Could not update product";
+                    return View(productToEdit);
+                }
+                //Assign modified values to products
+                productToEdit.ImagePath = imageUplaodURL;
+            }
+            productToEdit.Name = product.Name;
+            productToEdit.Price = product.Price;
+            productToEdit.Description = product.Description;
+            productToEdit.QuantityInStock = product.QuantityInStock;
+
+            var updateProd = await _productRepo.UpdateAsync(productToEdit);
+
+            if(updateProd)
+            {
+                TempData["Success"] = $"Product successfully modified";
+                return RedirectToAction("Detail", new { id = productToEdit.ProductId });
+            }
+
+            return View(product);
         }
 
         public IActionResult Delete(int id)
@@ -100,9 +135,9 @@ namespace PoshBay.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(string productId) //the parameter name productId should match the route parameter int the view that calls this method
+        public async Task<IActionResult> Detail(string id) //the parameter name productId should match the route parameter in the view(Index) that calls this method
         {
-            var product = await _productRepo.GetByIdAsync(productId);
+            var product = await _productRepo.GetByIdAsync(id);
             if (product == null)
             {
                 TempData["Error"] = "Product could not be found";
