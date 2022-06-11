@@ -129,10 +129,7 @@ namespace PoshBay.Controllers
             return View(product);
         }
 
-        public IActionResult Delete(int id)
-        {
-            return View();
-        }
+        
 
         [HttpGet]
         public async Task<IActionResult> Detail(string id) //the parameter name productId should match the route parameter in the view(Index) that calls this method
@@ -146,5 +143,40 @@ namespace PoshBay.Controllers
             var prodToDetail = _mapper.Map<ProductDetailViewModel>(product);
             return View(prodToDetail);
         }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var product = await _productRepo.GetByIdAsync(id);
+            if (product == null)
+            {
+                TempData["Error"] = "Product not found";
+                return View();
+            }
+
+            var prodToDelete = _mapper.Map<ProductDetailViewModel>(product);
+            return View(prodToDelete);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(ProductDetailViewModel product)
+        {
+            var prod = await _productRepo.GetByIdAsync(product.ProductId);
+            if(prod == null)
+            {
+                TempData["Error"] = "Product not found";
+                return View(product);
+            }
+
+            
+             bool deletedProd = await _productRepo.DeleteAsync(prod);
+            if (!deletedProd)
+            {
+                return View(product);
+            }
+            TempData["Product-Delete-Success"] = "Product successfully deleted";
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

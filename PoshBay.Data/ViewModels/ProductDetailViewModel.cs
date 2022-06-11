@@ -8,7 +8,7 @@ namespace PoshBay.Data.ViewModels
 {
     public class ProductDetailViewModel
     {
-        public string ProductId { get; private set; } 
+        public string ProductId { get; set; } 
 
         public string? Name { get; set; }
 

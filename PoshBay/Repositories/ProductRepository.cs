@@ -22,11 +22,11 @@ namespace PoshBay.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
         
-        public void Delete(int id)
+        public async Task<bool> DeleteAsync(Product product)
         {
-            var product = _context.Products.Find(id);
+            //var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync() > 0;
         }
         
         public async Task<IEnumerable<Product>> GetAllAsync()
