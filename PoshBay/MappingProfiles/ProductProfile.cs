@@ -1,5 +1,6 @@
 ﻿using PoshBay.Data.Models;
 using PoshBay.Data.ViewModels;
+using PoshBay.DTO;
 
 namespace PoshBay.MappingProfiles
 {
@@ -9,6 +10,10 @@ namespace PoshBay.MappingProfiles
         {
             CreateMap<ProductViewModel, Product>();
             CreateMap<Product, ProductViewModel>();
+            CreateMap<Product, ProductDetailViewModel>();
+            CreateMap<ProductDetailViewModel, Product>();
+            CreateMap<ProductEditDTO, Product>();
+            CreateMap<Product, ProductEditDTO>();
         }
     }
 }

@@ -23,8 +23,4 @@
     <ProjectReference Include="..\PoshBay.Services\PoshBay.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>

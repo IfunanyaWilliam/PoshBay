@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<PoshBay.Data.Models.Category>
 
-<h4>@TempData["Seccess"]</h4>
-<h3>@TempData["Delete-Success"] </h3>
-
 
 <p>
      @Html.ActionLink("Create New", "Create")
  </p>
+ <div style="align-content:center" class="text-center">
+     <h6 class="alert-success">@TempData["Success"]</h6>
+     <h6 class="alert-success">@TempData["Delete-Success"]</h6>
+ </div>
 
  <div>
     @* <form> *@

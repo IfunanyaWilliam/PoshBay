@@ -38,8 +38,8 @@ namespace PoshBay.Controllers
                 TempData["Error"] = "Category could not be added";
                 return View(model);
             }
-            var message = TempData["Success"] = "Category successfully added";
-            return RedirectToAction("List", message);
+            TempData["Success"] = $"Category {model.Name} successfully added";
+            return RedirectToAction("List");
         }
 
         public async Task<IActionResult> List()
@@ -102,7 +102,7 @@ namespace PoshBay.Controllers
             {
                 return View();
             }
-            TempData["Delete-Success"] = "Category successfully deleted";
+            TempData["Delete-Success"] = $"Category successfully deleted";
             return RedirectToAction("List");
         }
     }

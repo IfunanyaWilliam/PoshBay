@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PoshBay.Contracts;
+using PoshBay.Data.Models;
 using PoshBay.Models;
 using System.Diagnostics;
 
@@ -7,15 +9,18 @@ namespace PoshBay.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IProductRepository _productRepository;
+        public HomeController(ILogger<HomeController> logger,
+                                IProductRepository productRepository)
         {
             _logger = logger;
+            _productRepository = productRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IEnumerable<Product> products = await _productRepository.GetAllAsync();
+            return View(products);
         }
 
         public IActionResult Privacy()

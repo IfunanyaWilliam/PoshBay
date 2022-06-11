@@ -1,0 +1,130 @@
+﻿@model PoshBay.DTO.ProductEditDTO
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h3>@TempData["Error"]</h3>
+
+<section>
+    <div class="container">
+        <form enctype="multipart/form-data" method="post" class="row d-flex justify-content-center align-items-center h-100" 
+                        asp-controller="Product" asp-action="Edit">
+            <div class="col-xl-9">
+
+                @*Display an error message if image could not be added*@
+                 <span class="text-danger my-2">@TempData["Error"]</span>
+                 <span asp-validation-summary="ModelOnly"></span>
+                 
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body">
+                        
+                        <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="Name" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+                                <input hidden asp-for="@Model.ProductId" />
+                                <input asp-for="@Model.Name" type="text" class="form-control form-control-lg" value="@Model.Name" />
+                                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+                        <hr class="mx-n3">
+                        <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+                                
+                                <label asp-for="Price" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <input asp-for="Price" type="text" class="form-control form-control-lg" value="@Model.Price" />
+                                <span asp-validation-for="@Model.Price" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        
+                        <hr class="mx-n3">
+                        <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="@Model.QuantityInStock" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <input asp-for="@Model.QuantityInStock" type="text" class="form-control form-control-lg" value="@Model.QuantityInStock" />
+                                <span asp-validation-for="@Model.QuantityInStock" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        
+                        <hr class="mx-n3">
+                        <div class="row align-items-center pt-4 pb-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="@Model.CategoryId" class="mb-0"></label>
+                                
+                            </div>
+                            <div class="col-md-9 pe-5">
+                               <select asp-for="@Model.CategoryId"  type="text" class="form-control form-control-lg"> 
+                                @foreach(var item in ViewBag.Message)
+                                { 
+                                  <option value="@item.CategoryId">@item.Name</option>    
+                                }
+                                </Select>
+                                <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>   
+                            </div>
+                        </div>
+
+                        <hr class="mx-n3">
+                        <div class="row align-items-center py-3">
+                            <div class="col-md-3 ps-5">
+
+                                <label asp-for="Description" class="mb-0"></label>
+
+                            </div>
+                            <div class="col-md-9 pe-5">
+
+                                <textarea asp-for="@Model.Description" type="email" class="form-control form-control-lg" value="@Model.Description" ></textarea>
+                                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+
+
+                            </div>
+                        </div>
+                        <hr class="mx-n3">
+
+                        <div class="custom-file w-100 d-flex flex-row justify-content-between px-5">
+                            <div>
+                                <label asp-for="@Model.ImagePath" class="mb-0 custom-file-label"></label>
+                                <img src=@Model.ImagePath class="custom-file-input" width="100" height="100"/> 
+                                <span asp-validation-for="@Model.ImagePath"></span>
+                            </div>
+                            <div class="">
+                                <label class="mb-0 custom-file-label"></label>
+                                <input type="file" class="custom-file-input" /> 
+                                <span asp-validation-for="@Model.ImagePath"></span>
+                            </div>
+
+                        </div>
+
+                        <hr class="mx-n3">
+                        
+                        <div class="px-5 py-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Update Product</button> 
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</section>
+

@@ -1,5 +1,42 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model PoshBay.Data.ViewModels.ProductDetailViewModel
+
+<div class="container">
+    <h1>Product Details</h1>
+
+    <div class="container d-flex border p-4 w-100">
+        <div class="w-25 d-flex flex-column justify-content-center align-items-center">
+            <img asp-for="@Model.ImagePath" src=@Model.ImagePath class="img-fluid rounded" />
+        </div>
+        <div class="container ml-3">
+            <label asp-for="Name"></label>
+            <h4 asp-for="@Model.Name">@Model.Name</h4>
+
+            <label asp-for="@Model.Price"></label>
+            <h4 asp-for="@Model.Price">#@Model.Price</h4>
+            <div>
+                
+                <div class="d-flex mt-2  justify-content-start align-items-baseline">
+                    <form enctype="multipart/form-data" method="post">
+                        <div class="custom-file w-100 d-flex flex-column">
+                            <label asp-for="@Model.Description"></label>
+                            <textarea readonly asp-for="@Model.Description"></textarea>
+                        </div>
+                        
+                        <div class="w-100 d-flex flex-row">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new {id = @Model.ProductId}) |
+                                        @Html.ActionLink("Back To list", "Index", "Home") 
+                                    </td>
+                                </tr>  
+                            </table>
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>     
+        </div>
+    </div>
+</div>

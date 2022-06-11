@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PoshBay.Contracts;
 using PoshBay.Data.Models;
 using PoshBay.Data.ViewModels;
+using PoshBay.DTO;
 using PoshBay.Services;
 using System.IO;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace PoshBay.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel model)
         {
             if (!ModelState.IsValid)
@@ -64,22 +66,29 @@ namespace PoshBay.Controllers
                 TempData["Error"] = "Product could not be added";
                 return View(product);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Detail", new { id = product.ProductId });
             //return RedirectToAction("Details", new { id = product.ProductId });
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            var product = await _productRepo.GetByIdAsync(id);
+            var prodToDTO = _mapper.Map<ProductEditDTO>(product);
+            ViewBag.Message = await _productRepo.GetAllCategoryAsync();
+            return View(prodToDTO);
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ProductEditDTO product)
         {
+
             var productToEdit = _productRepo.GetByIdAsync(product.ProductId);
-            if (productToEdit != null)
+            if (productToEdit == null)
             {
                 TempData["Error"] = "Product could not be found";
+
+                //ViewBag.Message = await _productRepo.GetAllCategoryAsync();
                 return View(product);
             }
             return RedirectToAction("Index", "Home");
@@ -88,6 +97,19 @@ namespace PoshBay.Controllers
         public IActionResult Delete(int id)
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(string productId) //the parameter name productId should match the route parameter int the view that calls this method
+        {
+            var product = await _productRepo.GetByIdAsync(productId);
+            if (product == null)
+            {
+                TempData["Error"] = "Product could not be found";
+                return RedirectToAction("Index", "Home");
+            }
+            var prodToDetail = _mapper.Map<ProductDetailViewModel>(product);
+            return View(prodToDetail);
         }
     }
 }
