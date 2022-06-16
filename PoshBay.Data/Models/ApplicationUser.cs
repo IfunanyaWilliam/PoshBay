@@ -13,11 +13,12 @@ namespace PoshBay.Data.Models
     {
 
         [Key]
-        public string UserId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "&");
-        public string? FullName { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string AppUserId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "&");
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public override string? Email { get; set; }
+
+        public override string? PhoneNumber { get; set; } 
         public bool IsAdmin { get; set; } = false;
     }
 }

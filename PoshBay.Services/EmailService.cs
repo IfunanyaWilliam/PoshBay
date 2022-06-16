@@ -38,11 +38,11 @@ namespace PoshBay.Services
                  {"To", new JArray {
                   new JObject {
                    {"Email", model.Email},
-                   {"Name", model.FullName}
+                   {"Name", model.FirstName}
                    }
                   }},
                  {"Subject", "PoshBay Registration"},
-                 {"TextPart", "Hi, " + model.FullName + "!\n\n"},
+                 {"TextPart", "Hi, " + model.FirstName + "!\n\n"},
                  {"HTMLPart", EmailBody(model)}
                  }
                 });
@@ -108,7 +108,7 @@ namespace PoshBay.Services
                  $"<p>While we hold it to be true that money cannot buy everything.</p>" +
                  $"<p>But for all the good things in life that money can buy, <strong>Think PoshBay</Strong>.</p><br/>" +
                  $"<p>Your login credentials are as follow:<p>" +
-                 $"<div><strong>Full Name:</strong> {model.FullName}</div>" +
+                 $"<div><strong>Full Name:</strong> {model.FirstName} {model.LastName}</div>" +
                  $"<div><strong>Email:</strong> {model.Email}</div>"+
                  $"<br><br>" +
                  $"<div><p>You can always reach out to us via <strong>info@poshbay.com</strong></p></div>"+

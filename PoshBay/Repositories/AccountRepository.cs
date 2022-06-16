@@ -34,12 +34,12 @@ namespace PoshBay.Repositories
 
         public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
         {
-            return await _context.ApplicationUsers.OrderBy(u => u.FullName).ToListAsync();
+            return await _context.ApplicationUsers.OrderBy(u => u.FirstName).ToListAsync();
         }
 
         public ApplicationUser GetById(string id)
         {
-            return _context.ApplicationUsers.Where(u => u.UserId == id).FirstOrDefault();
+            return _context.ApplicationUsers.FirstOrDefault(u => u.AppUserId == id);
         }
 
         public async Task<ApplicationUser> GetAppUser(Expression<Func<ApplicationUser, bool>> predicate)

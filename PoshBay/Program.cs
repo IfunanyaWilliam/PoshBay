@@ -14,7 +14,14 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 //Add services for IdentityContext
-builder.Services.AddIdentity<IdentityUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+
+                    { options.SignIn.RequireConfirmedAccount = false;
+                        options.Password.RequireDigit = false;
+                        options.Password.RequiredLength = 8;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireUppercase = false;
+                    })
                 .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();

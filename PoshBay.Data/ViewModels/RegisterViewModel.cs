@@ -10,10 +10,15 @@ namespace PoshBay.Data.ViewModels
     public class RegisterViewModel
     {
 
-        [Required(ErrorMessage = "Please enter your Full Name")]
-        [Display(Name = "Full Name")]
-        [StringLength(150)]
-        public string? FullName { get; set; }
+        [Required(ErrorMessage = "Please enter your First Name")]
+        [Display(Name = "First Name")]
+        [StringLength(50)]
+        public string? FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Last Name")]
+        [Display(Name = "Last Name")]
+        [StringLength(50)]
+        public string? LastName { get; set; }
 
         [Required]
         [StringLength(50)]
