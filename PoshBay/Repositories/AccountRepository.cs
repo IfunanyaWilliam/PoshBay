@@ -3,6 +3,7 @@ using PoshBay.Contracts;
 using PoshBay.Data;
 using PoshBay.Data.Data;
 using PoshBay.Data.Models;
+using System.Linq.Expressions;
 
 namespace PoshBay.Repositories
 {
@@ -31,14 +32,19 @@ namespace PoshBay.Repositories
             }
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
         {
-            return _context.ApplicationUsers.OrderBy(u => u.FullName);
+            return await _context.ApplicationUsers.OrderBy(u => u.FullName).ToListAsync();
         }
 
         public ApplicationUser GetById(string id)
         {
             return _context.ApplicationUsers.Where(u => u.UserId == id).FirstOrDefault();
+        }
+
+        public async Task<ApplicationUser> GetAppUser(Expression<Func<ApplicationUser, bool>> predicate)
+        {
+            return await _context.ApplicationUsers.AsQueryable().FirstOrDefaultAsync(predicate);
         }
 
         public async Task<bool> EmailExisAsync(string email)

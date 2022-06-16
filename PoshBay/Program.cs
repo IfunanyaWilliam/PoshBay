@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PoshBay.Contracts;
 using PoshBay.Data.Data;
@@ -12,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+//Add services for IdentityContext
+builder.Services.AddIdentity<IdentityUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AppDbContext>();
+
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -24,6 +29,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 
 //Add email service to the builder for Mapping the EmailConfig class to the appsettings.json file MailConfiguration section
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("MailConfiguration"));
+
 
 
 
@@ -51,6 +57,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
