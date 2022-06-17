@@ -26,15 +26,15 @@ namespace PoshBay.Controllers
             _emailService = emailService;
             _mapper = mapper;
             _userManager = userManager;
-            _signInManager = signInManager; 
+            _signInManager = signInManager;
         }
-        
-        
+
+
         public IActionResult Login()
         {
             return View(new LoginViewModel());
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -113,12 +113,83 @@ namespace PoshBay.Controllers
             var IsMailSent = await _emailService.SendEmail(model);
             if (IsMailSent)
             {
-                //var appUser = _mapper.Map<ApplicationUser>(model);
-                //_accRepo.Add(appUser);
-                //TempData["Success"] = "Registeration Successful.";
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
         }
+
+
+        public IActionResult SendPassWordResetToken()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendPassWordResetToken(ResetPassWordViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                TempData["EmailNotFound"] = "Email not found. Do you want to register?";
+                return View(model);
+            }
+
+            //Generate reset token
+            var token = _userManager.GeneratePasswordResetTokenAsync(user).Result;
+
+            //set the action method that will recieve the token from email link
+            var resetLink = Url.Action("ResetPassword", "Account", new { token = token }, protocol: HttpContext.Request.Scheme);
+
+            var sendEmail = await _emailService.SendResetToKen(model.Email, resetLink);
+
+            if (sendEmail)
+            {
+                return RedirectToAction("PassWordResetTokenSent");
+            }
+
+            return View(model);
+        }
+
+        public IActionResult PassWordResetTokenSent()
+        {
+            return View();
+        }
+
+
+        public IActionResult ResetPassword(string token)
+        {
+            var model = new ResetPassWordViewModel();
+            model.Token = token;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPassWordViewModel model)
+        {
+            var user = _userManager.FindByEmailAsync(model.Email).Result;
+            IdentityResult result = null;
+            try
+            {
+                result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            if (result.Succeeded)
+            {
+                ViewBag.Message = "Password reset successful";
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                ViewBag.Message = "Error while resetting the password";
+                return View(model);
+            }
+
+        }
     }
-} 
+}
