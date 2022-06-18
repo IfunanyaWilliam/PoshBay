@@ -62,6 +62,12 @@ namespace PoshBay.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpGet]
         public IActionResult Register()

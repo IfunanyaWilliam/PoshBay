@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<PoshBay.Data.Models.Product>
 
 <div class="text-center">
-    <h3 class="display-4">Welcome to PoshBay</h3>
+    <h4>Welcome to PoshBay</h4>
 </div>
 
 <div style="align-content:center" class="text-center">
@@ -10,15 +10,23 @@
 
 <div class="row pb-4">
     <p class="text-danger">@TempData["Error"]</p>
-    @foreach(var item in Model)
+    @if (Model.Count() > 0)
     {
-        <div class="card m-2" style="width: 15rem;">
-            <img class="card-img-top" src="@item.ImagePath" alt="Card image" />
-            <div class="card-body form-control">
-                <h4 class="card-title">@item.Name</h4>
-                <p class="card-text">Price: #@item.Price.ToString(".00")</p> 
-                <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary">Details</a>
+        @foreach(var item in Model)
+        {
+            <div class="card m-2" style="width: 15rem;">
+                <img class="card-img-top" src="@item.ImagePath" alt="Card image" />
+                <div class="card-body form-control">
+                    <h4 class="card-title">@item.Name</h4>
+                    <p class="card-text">Price: #@item.Price.ToString(".00")</p> 
+                    <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary">Details</a>
+                </div>
             </div>
-        </div>
+        }
     }
+    else
+    {
+        <h5>Opps! No product added yet</h5>
+    }
+
 </div>
