@@ -28,6 +28,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAppUserRoles, AppUserRole>();
 
 //Add the services to the builder for Cloudinary by mapping the CloudinaryConfig class to the appsettings.json file
 builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("Cloudinary"));
@@ -43,7 +44,8 @@ builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("MailCo
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Add service for Repositories
+//Add service for Razorpages
+builder.Services.AddRazorPages();
 
 
 //add automapper
@@ -64,11 +66,26 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+SeedData();
+
 app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization(); 
+app.MapRazorPages();
+
+
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+void SeedData()
+{
+    using (var scope = app.Services.CreateAsyncScope())
+    {
+        var initializeRole = scope.ServiceProvider.GetRequiredService<IAppUserRoles>();
+        initializeRole.Roles().Wait();  //Wait() method is added because Roles() is an async void method
+    }
+}

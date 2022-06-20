@@ -30,11 +30,16 @@
                             <table class="table">
                                 <tr>
                                     <td>
-                                        @Html.ActionLink("Back To list", "Index", "Home") |
-                                        @Html.ActionLink("Edit", "Edit", new {id = @Model.ProductId}) |
-                                        @Html.ActionLink("Delete", "Delete", new {id = @Model.ProductId})  
+                                        @Html.ActionLink("Back To List", "Index", "Home", null, new { @class = "btn btn-primary"} ) 
+                                        @Html.ActionLink("Add to Cart", "AddCartItem", "Customer" , new {id = @Model.ProductId}, new { @class = "btn btn-primary"} )
                                     </td>
                                 </tr>  
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new {id = @Model.ProductId}, new { @class = "btn btn-primary"} ) 
+                                        @Html.ActionLink("Delete", "Delete", new {id = @Model.ProductId}, new { @class = "btn btn-primary"})
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 

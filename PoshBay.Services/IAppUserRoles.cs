@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PoshBay.Data
+namespace PoshBay.Services
 {
-    public enum AppUserRole
+    public interface IAppUserRoles
     {
-        Customer = 1, 
-        Envelope
+        public Task Roles();
     }
 }

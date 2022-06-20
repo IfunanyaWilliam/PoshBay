@@ -37,6 +37,8 @@ namespace PoshBay.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Message = _productRepo.GetAllCategory();
+                var Categories = ViewBag.Message;
                 return View(model);
             }
 
