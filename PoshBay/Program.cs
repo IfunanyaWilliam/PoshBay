@@ -9,9 +9,18 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Add the DbContext to the builder
+//Define a variable to get check type of environment
+var env = builder.Environment;
+
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+if (env.IsDevelopment())
+{
+    //Add the DbContext to the builder
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+}
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 //Add services for IdentityContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -66,12 +75,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//My custom method to generate default admin
 SeedData();
 
 app.UseAuthentication();
 app.UseAuthorization(); 
 app.MapRazorPages();
 
+//My custom methods to ensure database creation in Production Environment
+DatabaseEnsureCreated();
 
 
 app.MapControllerRoute(
@@ -87,5 +99,14 @@ void SeedData()
     {
         var initializeRole = scope.ServiceProvider.GetRequiredService<IAppUserRoles>();
         initializeRole.Roles().Wait();  //Wait() method is added because Roles() is an async void method
+    }
+}
+
+void DatabaseEnsureCreated()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated();
     }
 }

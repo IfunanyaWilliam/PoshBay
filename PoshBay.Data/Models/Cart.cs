@@ -14,8 +14,8 @@ namespace PoshBay.Data.Models
         public string CartId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$");
         public int SelectedQuantity { get; set; }
         public decimal Price { get; set; }
-        public string Description { get; set; }
-        public Product Product { get; set; }
-        public DateTime AddedOn { get; set; } = DateTime.Now;
+        public string? Description { get; set; }
+        public Product? Product { get; set; }
+        public DateTime? AddedOn { get; set; } = DateTime.Now;
     }
 }

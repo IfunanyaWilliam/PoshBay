@@ -11,7 +11,7 @@ namespace PoshBay.Data.Models
     {
         [Key]
         public string Id { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$");
-        public string UserId { get; set; }
-        public List<Cart> CartItems { get; set; } = new List<Cart>();
+        public string? UserId { get; set; }
+        public List<Cart>? CartItems { get; set; } = new List<Cart>();
     }
 }
