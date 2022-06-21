@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PoshBay.Contracts;
 using PoshBay.Data.Models;
@@ -17,7 +18,8 @@ namespace PoshBay.Controllers
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -25,6 +27,7 @@ namespace PoshBay.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CategoryViewModel model)
         {
             if (!ModelState.IsValid)
@@ -42,6 +45,7 @@ namespace PoshBay.Controllers
             return RedirectToAction("List");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> List()
         {
             var category = await _categoryRepository.GetAll();
@@ -55,6 +59,7 @@ namespace PoshBay.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
@@ -69,6 +74,7 @@ namespace PoshBay.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(CategoryEditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -95,6 +101,7 @@ namespace PoshBay.Controllers
             
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             var categoryN = await _categoryRepository.DeleteAsync(id);

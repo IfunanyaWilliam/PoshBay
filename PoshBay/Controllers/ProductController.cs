@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PoshBay.Contracts;
 using PoshBay.Data.Models;
@@ -22,7 +23,8 @@ namespace PoshBay.Controllers
             _productRepo = poductRepo;
             _imageService = imageService;
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Message =  _productRepo.GetAllCategory();
@@ -33,6 +35,7 @@ namespace PoshBay.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(ProductViewModel model)
         {
             if (!ModelState.IsValid)
@@ -70,6 +73,7 @@ namespace PoshBay.Controllers
             //return RedirectToAction("Details", new { id = product.ProductId });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             var product = await _productRepo.GetByIdAsync(id);
@@ -80,6 +84,7 @@ namespace PoshBay.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(ProductEditDTO product)
         {
 
@@ -161,6 +166,7 @@ namespace PoshBay.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(ProductDetailViewModel product)
         {
             var prod = await _productRepo.GetByIdAsync(product.ProductId);
