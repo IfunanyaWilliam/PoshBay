@@ -1,4 +1,7 @@
 ﻿@model PoshBay.Data.ViewModels.ProductDetailViewModel
+@using Microsoft.AspNetCore.Identity;
+@using PoshBay.Data.Models
+@inject SignInManager<ApplicationUser> manager;
 
 <div style="align-content:center" class="text-center">
      <h6 class="alert-success">@TempData["Success"]</h6>
@@ -35,10 +38,13 @@
                                     </td>
                                 </tr>  
                                 <tr>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new {id = @Model.ProductId}, new { @class = "btn btn-primary"} ) 
-                                        @Html.ActionLink("Delete", "Delete", new {id = @Model.ProductId}, new { @class = "btn btn-primary"})
-                                    </td>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <td>
+                                           @Html.ActionLink("Edit", "Edit", new {id = @Model.ProductId}, new { @class = "btn btn-primary"} ) 
+                                           @Html.ActionLink("Delete", "Delete", new {id = @Model.ProductId}, new { @class = "btn btn-primary"})
+                                        </td>
+                                    }
                                 </tr>
                             </table>
                         </div>
