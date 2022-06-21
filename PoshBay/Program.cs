@@ -13,13 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
 
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 if (env.IsDevelopment())
 {
     //Add the DbContext to the builder
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+    var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
 }
 
+var connectionString = builder.Configuration.GetConnectionString("PostGreSql");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 //Add services for IdentityContext
