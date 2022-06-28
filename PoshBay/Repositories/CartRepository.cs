@@ -12,12 +12,11 @@ namespace PoshBay.Repositories
         {
             _context = context;
         }
-        public Task<bool> AddToCartAsync(string id)
+        public async Task<bool> AddToCartAsync(string id)
         {
             //retrieve the product from the database.
             var cart = _context.Carts.Find(id);
-
-            var cartItem = _context.ShoppingCarts.FirstOrDefault(c => c.CartId == cart.CartId)
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public Task<IEnumerable<Cart>> GetCartItemsAsync()

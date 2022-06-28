@@ -15,7 +15,7 @@
         @foreach (var item in Model)
         {
             <div class="card m-2" style="width: 15rem;">
-                <img class="card-img-top" src="@item.ImagePath" alt="Card image" />
+                <img class="card-img-top" src="@item.ImagePath" alt="Card image" height="150"/>
                 <div class="card-body form-control">
                     <h4 class="card-title">@item.Name</h4>
                     <p class="card-text">Price: #@item.Price.ToString(".00")</p>
@@ -32,7 +32,7 @@
         <h5>Opps! No product added yet</h5>
     }
 
-    @foreach (var item in Model)
+   @* @foreach (var item in Model)
         {
 
         <div class="card" style="width: 18rem;">
@@ -43,5 +43,5 @@
                 <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
-        }
+        }*@
 </div>
