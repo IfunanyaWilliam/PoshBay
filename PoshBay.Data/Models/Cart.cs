@@ -12,10 +12,10 @@ namespace PoshBay.Data.Models
 
         [Key]
         public string CartId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$");
-        public int SelectedQuantity { get; set; }
+
+        public string? UserId { get; set; }
+        public string? ProductId { get; set; }
+        public int Quantity { get; set; }
         public decimal Price { get; set; }
-        public string? Description { get; set; }
-        public Product? Product { get; set; }
-        public DateTime? AddedOn { get; set; } = DateTime.Now;
     }
 }
