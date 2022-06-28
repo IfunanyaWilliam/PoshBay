@@ -12,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 //Define a variable to get check type of environment
 var env = builder.Environment;
 
-
-
 if (env.IsDevelopment())
 {
     //Add the DbContext to the builder
@@ -23,7 +21,7 @@ if (env.IsDevelopment())
 
 var connectionString = builder.Configuration.GetConnectionString("PostGreSql");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
-
+ 
 //Add services for IdentityContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
