@@ -14,8 +14,10 @@ namespace PoshBay.Repositories
         }
         public Task<bool> AddToCartAsync(string id)
         {
-            var prod = _context.Products.Find(id);
+            //retrieve the product from the database.
+            var cart = _context.Carts.Find(id);
 
+            var cartItem = _context.ShoppingCarts.FirstOrDefault(c => c.CartId == cart.CartId)
         }
 
         public Task<IEnumerable<Cart>> GetCartItemsAsync()
