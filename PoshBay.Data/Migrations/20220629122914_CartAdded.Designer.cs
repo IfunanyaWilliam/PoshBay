@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoshBay.Data.Data;
 
@@ -11,9 +12,10 @@ using PoshBay.Data.Data;
 namespace PoshBay.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220629122914_CartAdded")]
+    partial class CartAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,7 +260,7 @@ namespace PoshBay.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PoshBay.Data.Models.CartItem", b =>
+            modelBuilder.Entity("PoshBay.Data.Models.Cart", b =>
                 {
                     b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
@@ -402,17 +404,19 @@ namespace PoshBay.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PoshBay.Data.Models.CartItem", b =>
+            modelBuilder.Entity("PoshBay.Data.Models.Cart", b =>
                 {
                     b.HasOne("PoshBay.Data.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("PoshBay.Data.Models.ShoppingCart", null)
+                    b.HasOne("PoshBay.Data.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("CartItem")
                         .HasForeignKey("ShoppingCartId");
 
                     b.Navigation("Product");
+
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("PoshBay.Data.Models.ShoppingCart", b =>

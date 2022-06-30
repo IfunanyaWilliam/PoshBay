@@ -10,8 +10,8 @@ namespace PoshBay.Data.Models
     public class ShoppingCart
     {
         [Key]
-        public string ShoppingCartId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$");
-        public string? UserId { get; set; }
-        public List<Cart>? CartItems { get; set; } = new List<Cart>();
+        public string ShoppingCartId { get; set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
+        public string? AppUserId { get; set; }
+        public ICollection<CartItem>? CartItem { get; set; }
     }
 }

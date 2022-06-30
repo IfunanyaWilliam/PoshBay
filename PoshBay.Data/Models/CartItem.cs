@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace PoshBay.Data.Models
 {
-    public class Cart
+    public class CartItem
     {
-
         [Key]
         public string CartId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$");
-
-        public string? UserId { get; set; }
         public string? ProductId { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public int SelectedQuantity { get; set; }
+        public Product? Product { get; set; }
+        public decimal TotalPrice { get; set; }
+        public string? ShoppingCartId { get; set; }
     }
 }

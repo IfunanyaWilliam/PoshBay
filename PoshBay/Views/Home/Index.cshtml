@@ -1,27 +1,55 @@
 ﻿@model IEnumerable<PoshBay.Data.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@using PoshBay.Data.Models
+@inject SignInManager<ApplicationUser> _manager
 
-<div class="text-center">
-    <h4>Welcome to PoshBay</h4>
-</div>
 
-<div style="align-content:center" class="text-center">
-    <h6 class="alert-success">@TempData["Product-Delete-Success"]</h6>
-</div>
+@*<script>
+    $(document).ready(function(){
 
-<div class="row pb-4">
-    <p class="text-danger">@TempData["Error"]</p>
-    @if (Model.Count() > 0)
+          $('#AddProd').click(function () {
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Cart/AddToCart")",
+                    data: { id: $('#@Html.IdFor(m=>m..EmployeeName)').val(), },
+                    cache: false,
+                    async: true,
+                    success: function (data) {
+                    alert(data);
+                }
+            });
+        })
+    }
+</script>*@
+
+
+
+
+
+
+    <div class="text-center">
+        <h4>Welcome to PoshBay</h4>
+    </div>
+
+    <div style="align-content:center" class="text-center">
+        <h6 class="alert-success">@TempData["Product-Delete-Success"]</h6>
+    </div>
+
+    <div class="row pb-4">
+        <p class="text-danger">@TempData["Error"]</p>
+        @if (Model.Count() > 0)
     {
         @foreach (var item in Model)
         {
             <div class="card m-2" style="width: 15rem;">
-                <img class="card-img-top" src="@item.ImagePath" alt="Card image" height="150"/>
+                <img class="card-img-top" src="@item.ImagePath" alt="Card image" height="150" />
                 <div class="card-body form-control">
                     <h4 class="card-title">@item.Name</h4>
                     <p class="card-text">Price: #@item.Price.ToString(".00")</p>
                     <div class="w-100 d-flex flex-row">
                         <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary mx-lg-2 mx-md-2 mx-sm-2">Details</a>
-                        <a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary">Add to Cart</a>
+                        <a asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@item.ProductId" asp-route-appUserEmail="@User.Identity.Name" id="AddProd" class="btn btn-primary"> Add to Cart</a>
                     </div>
                 </div>
             </div>
@@ -32,16 +60,16 @@
         <h5>Opps! No product added yet</h5>
     }
 
-   @* @foreach (var item in Model)
-        {
+    @* @foreach (var item in Model)
+    {
 
-        <div class="card" style="width: 18rem;">
-            <img  src="@item.ImagePath" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        }*@
+    <div class="card" style="width: 18rem;">
+    <img  src="@item.ImagePath" class="card-img-top" alt="...">
+    <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    </div>
+    }*@
 </div>
