@@ -51,22 +51,22 @@ namespace PoshBay.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<ShoppingCart> GetShoppingCartItemsAsync(string AppUserId)
+        public async Task<ShoppingCart> GetShoppingCartItemsAsync(string appUserId)
         {
             //CartItems is included b/c its a sub property of ShoppingCart. ThenInclude adds Product which is a sub property of CartItems
-            return await _context.ShoppingCarts.Include(x => x.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(x => x.AppUserId == AppUserId);
+            return await _context.ShoppingCarts.Include(x => x.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(x => x.AppUser.Id == appUserId);
         }
 
-        public async Task<bool> RemoveCartAsync(string cartId)
+        public async Task<bool> RemoveCartAsync(string cartItemId, string shoppingCartId)
         {
             //should also remove associated shoppingcart
-            var cart = _context.CartItem.Find(cartId);
-            var cartItems = _context.ShoppingCarts.FirstOrDefault(x => x.ShoppingCartId == cartId);
+            var cart = _context.CartItem.Find(cartItemId);
+            var cartItems = _context.ShoppingCarts.FirstOrDefault(x => x.ShoppingCartId == shoppingCartId);
 
             if(cart is not null)
             {
                 _context.CartItem.Remove(cart);
-                _context.ShoppingCarts.Remove(cartItems);
+                //_context.ShoppingCarts.Remove(cartItems);
                 return await _context.SaveChangesAsync() > 0;
             }
             return false;

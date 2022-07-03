@@ -5,21 +5,57 @@
 
 
 
-@if(Model != null)
+@if (Model != null)
 {
     <p>@ViewBag.CartIemCount</p>
-    <p>Hello @Model.AppUser.FirstName</p>
-    <p>@Model.AppUserId</p>
+    <h4 class="m">Hello @Model.AppUser.FirstName, here Posh Cart</h4>
 
-    foreach(var cart in Model.CartItems)
-    {
-        <p>@cart?.Product?.ProductId</p>
-        <p>@cart?.Product?.Name</p>
-        <p>@cart?.Product?.Price</p>
-        <p>@cart?.SelectedQuantity</p>
-    }
+
+    <div>
+        <form>
+            <table class="table">
+                <tr>
+                    <th> Name of Product </th>
+                    <th> Price </th>
+                    <th> Selected Quantity </th>
+                    <th>Total Price</th>
+                    <th></th>
+                    <th> Remove Item </th>
+                </tr>
+                @foreach (var cart in Model.CartItems)
+                {
+                    <tr>
+                        <td> @cart?.Product?.Name </td>
+                        <td> @cart?.Product?.Price </td>
+                        <td> @cart.SelectedQuantity </td>
+                        <td> @cart.TotalPrice </td>
+                        <td> 
+                            <a class="btn btn-success" asp-controller="Home" asp-action="Index"> Continue Shopping </a>  
+                        </td>
+                        <td> @Html.ActionLink("Delete", "DeleteCartItem", new { cartItemId = cart.CartItemId, shoppingCartId =  cart.ShoppingCartId }) </td>
+                    </tr>
+                }
+            </table>
+        </form>
+    </div>
+
+    <div class="w-100 d-flex justify-content-center border-0">
+        <ul class="d-flex list-unstyled">
+            <li>
+                <a class="btn btn-success" asp-controller="Home" asp-action="Index"> Continue Shopping </a>
+            </li>
+            <li class="mx-2">
+                <a class="btn btn-success" asp-controller="Order" asp-action="CheckIn">Check Out</a>
+            </li>
+        </ul>
+    </div>
+
 }
 else
 {
     <p>Opps! No item in cart</p>
 }
+
+
+
+
