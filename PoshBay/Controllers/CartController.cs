@@ -27,55 +27,79 @@ namespace PoshBay.Controllers
         [Authorize]
         public async Task<IActionResult> AddToCart(string productId, string appUserEmail)
         {
-            var cart = await _cartRepo.GetCartAsync(productId);
-
-            if (cart != null)
-            {
-                cart.SelectedQuantity++;
-                await _cartRepo.UpdateCartAsync(cart);
-                return RedirectToAction("Index", "Home");
-            }
-
-            //Get the user with email with AccountRepo method 
+            //Get the signed in user with email 
             var user = await _accountRepo.GetAppUser(x => x.Email == appUserEmail);
 
-            var shoppingCart = new ShoppingCart
+
+            //Get the shopping cart associated with the user
+            var shoppingCart = await _cartRepo.GetShoppingCartAsync(user.Id);
+            if (shoppingCart != null)
             {
-                AppUserId = user?.AppUserId
+                //Get cart associated with this shoppingcart
+                var cart = await _cartRepo.GetCartAsync(shoppingCart.ShoppingCartId);
+                if (cart != null)
+                {
+                    cart.SelectedQuantity++;
+                    cart.TotalPrice = cart.SelectedQuantity * cart.Product.Price;
+                    await _cartRepo.UpdateCartAsync(cart);
+                    ViewBag.CartCount = shoppingCart.CartItems.Count;
+                    return RedirectToAction("Index", "Home");
+                }
+
+                //Create a new cart and shopping cart
+                var newProd = await _prodRepo.GetByIdAsync(productId);
+
+                var newCartItem = new CartItem
+                {
+                    SelectedQuantity = 1,
+                    Product = newProd,
+                    TotalPrice = newProd.Price,
+                    ShoppingCartId = shoppingCart.ShoppingCartId
+                };
+
+                var create = await _cartRepo.AddCartAsync(newCartItem);
+                return RedirectToAction("ViewCart", new { shoppingCartId = newCartItem.ShoppingCartId });
+            }
+
+            var newshoppingCart = new ShoppingCart
+            {
+                AppUserId = user?.Id
             };
 
             //Save ShoppingCart and grab the ShoppingCartId
-            await _cartRepo.AddShoppingCartAsync(shoppingCart);
+            await _cartRepo.AddShoppingCartAsync(newshoppingCart);
 
             //Create a new cart and shopping cart
             var prod = await _prodRepo.GetByIdAsync(productId);
 
-            var newCart = new CartItem
+            var NewCartItem = new CartItem
             {
-                ProductId = productId,
                 SelectedQuantity = 1,
                 Product = prod,
                 TotalPrice = prod.Price,
                 ShoppingCartId = shoppingCart.ShoppingCartId
             };
 
-            var result = await _cartRepo.AddCartAsync(newCart);
+            var result = await _cartRepo.AddCartAsync(NewCartItem);
 
             if (result)
             {
-                return RedirectToAction("ViewCart");
+                ViewBag.CartIemCount = shoppingCart.CartItems.Count;
+                return RedirectToAction("ViewCart", new { shoppingCartId = NewCartItem.ShoppingCartId });
             }
 
+            ViewBag.CartIemCount = shoppingCart.CartItems.Count;
             return RedirectToAction("Index");
         }
 
         [Authorize]
-        public async Task<IActionResult> ViewCart(string shoppingCartId)
+        public async Task<IActionResult> ViewCart(string appUserEmail)
         {
-            var shoppingCart = await _cartRepo.GetShoppingCartItemsAsync(shoppingCartId);
+            var user = await _accountRepo.GetAppUser(x => x.Email == appUserEmail);
+            var shoppingCart = await _cartRepo.GetShoppingCartItemsAsync(user.Id);
             return View(shoppingCart);
         }
-
+        
         public IActionResult GetCartCount()
         {
             return RedirectToAction("Index");

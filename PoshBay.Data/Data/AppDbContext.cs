@@ -18,7 +18,7 @@ namespace PoshBay.Data.Data
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<CartItem> Carts { get; set; }
+        public DbSet<CartItem> CartItem { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }

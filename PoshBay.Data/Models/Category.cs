@@ -12,7 +12,6 @@ namespace PoshBay.Data.Models
     {
 
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string CategoryId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "$"); 
         public string? Name { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;

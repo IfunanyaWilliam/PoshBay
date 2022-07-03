@@ -34,7 +34,7 @@
                                 <tr>
                                     <td>
                                         @Html.ActionLink("Back To List", "Index", "Home", null, new { @class = "btn btn-primary"} ) 
-                                        @Html.ActionLink("Add to Cart", "AddToCart", "Cart" , new {productId = @Model.ProductId}, new { @class = "btn btn-primary"} )
+                                        @Html.ActionLink("Add to Cart", "AddToCart", "Cart" , new {productId = @Model.ProductId, appUserEmail = @User.Identity.Name}, new { @class = "btn btn-primary"} )
                                     </td>
                                 </tr>  
                                 <tr>

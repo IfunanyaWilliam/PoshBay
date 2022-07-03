@@ -1,0 +1,25 @@
+﻿@model PoshBay.Data.Models.ShoppingCart
+@using Microsoft.AspNetCore.Identity;
+@using PoshBay.Data.Models
+@inject SignInManager<ApplicationUser> manager;
+
+
+
+@if(Model != null)
+{
+    <p>@ViewBag.CartIemCount</p>
+    <p>Hello @Model.AppUser.FirstName</p>
+    <p>@Model.AppUserId</p>
+
+    foreach(var cart in Model.CartItems)
+    {
+        <p>@cart?.Product?.ProductId</p>
+        <p>@cart?.Product?.Name</p>
+        <p>@cart?.Product?.Price</p>
+        <p>@cart?.SelectedQuantity</p>
+    }
+}
+else
+{
+    <p>Opps! No item in cart</p>
+}

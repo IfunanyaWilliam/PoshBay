@@ -12,8 +12,8 @@ using PoshBay.Data.Data;
 namespace PoshBay.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220629122914_CartAdded")]
-    partial class CartAdded
+    [Migration("20220703011445_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -260,9 +260,10 @@ namespace PoshBay.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PoshBay.Data.Models.Cart", b =>
+            modelBuilder.Entity("PoshBay.Data.Models.CartItem", b =>
                 {
-                    b.Property<string>("CartId")
+                    b.Property<string>("CartItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
@@ -277,13 +278,13 @@ namespace PoshBay.Data.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("CartId");
+                    b.HasKey("CartItemId");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("ShoppingCartId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("PoshBay.Data.Models.Category", b =>
@@ -346,9 +347,11 @@ namespace PoshBay.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ShoppingCartId");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -404,24 +407,31 @@ namespace PoshBay.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PoshBay.Data.Models.Cart", b =>
+            modelBuilder.Entity("PoshBay.Data.Models.CartItem", b =>
                 {
                     b.HasOne("PoshBay.Data.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("PoshBay.Data.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("CartItem")
+                    b.HasOne("PoshBay.Data.Models.ShoppingCart", null)
+                        .WithMany("CartItems")
                         .HasForeignKey("ShoppingCartId");
 
                     b.Navigation("Product");
-
-                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("PoshBay.Data.Models.ShoppingCart", b =>
                 {
-                    b.Navigation("CartItem");
+                    b.HasOne("PoshBay.Data.Models.ApplicationUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("PoshBay.Data.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

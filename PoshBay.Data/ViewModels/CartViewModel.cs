@@ -9,13 +9,8 @@ namespace PoshBay.Data.ViewModels
 {
     public class CartViewModel
     {
-        public string? CartId { get; private set; }
-        public string? ProductId { get; set; }
-        public int SelectedQuantity { get; set; }
-        public Product? Product { get; set; }
-        public decimal TotalPrice { get; set; }
+        public string? ShoppingCartId { get; set; }
         public string? AppUserId { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        LinkedList<CartItem>? CartItems { get; set; }
     }
 }

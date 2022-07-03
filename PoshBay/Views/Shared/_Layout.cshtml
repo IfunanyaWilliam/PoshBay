@@ -50,13 +50,13 @@
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="ViewCart">
+                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="ViewCart" asp-route-appUserEmail="@User.Identity.Name"> 
                                 <div class="position-relative">
                                     <i class="fa-solid fa-cart-shopping">
                                     
                                     </i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
-                                        <small>9</small>
+                                        <small>@ViewBag.CartIemCount </small>
                                         <span class="visually-hidden">unread messages</span>
                                     </span>
                                 </div>

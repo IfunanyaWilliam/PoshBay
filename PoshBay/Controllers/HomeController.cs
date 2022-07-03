@@ -20,6 +20,7 @@ namespace PoshBay.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<Product> products = await _productRepository.GetAllAsync();
+            //ViewBag.CartIemCount = 
             return View(products);
         }
 
