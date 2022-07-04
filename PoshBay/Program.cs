@@ -18,10 +18,13 @@ if (env.IsDevelopment())
     var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
 }
+else if(env.IsProduction())
+{
+    var connectionString = builder.Configuration.GetConnectionString("PostGreSql");
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+}
 
-var connectionString = builder.Configuration.GetConnectionString("PostGreSql");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
- 
+
 //Add services for IdentityContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
