@@ -16,9 +16,9 @@ namespace PoshBay.Repositories
             _context = context;
         }
 
-        public async Task<CartItem> GetCartAsync(string shoppingCartId)
+        public async Task<CartItem> GetCartAsync(string cartItemId)
         {
-            return await _context.CartItem.Include(x => x.Product).FirstOrDefaultAsync(i => i.ShoppingCartId == shoppingCartId);
+            return await _context.CartItem.FirstOrDefaultAsync(i => i.CartItemId == cartItemId);
         }
 
         public async Task<bool> AddCartAsync(CartItem cart)
@@ -57,19 +57,10 @@ namespace PoshBay.Repositories
             return await _context.ShoppingCarts.Include(x => x.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(x => x.AppUser.Id == appUserId);
         }
 
-        public async Task<bool> RemoveCartAsync(string cartItemId, string shoppingCartId)
+        public async Task<bool> RemoveCartAsync(CartItem cart)
         {
-            //should also remove associated shoppingcart
-            var cart = _context.CartItem.Find(cartItemId);
-            var cartItems = _context.ShoppingCarts.FirstOrDefault(x => x.ShoppingCartId == shoppingCartId);
-
-            if(cart is not null)
-            {
-                _context.CartItem.Remove(cart);
-                //_context.ShoppingCarts.Remove(cartItems);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            return false;
+            _context.CartItem.Remove(cart); 
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

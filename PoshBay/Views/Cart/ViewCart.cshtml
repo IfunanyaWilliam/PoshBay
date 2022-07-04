@@ -8,12 +8,15 @@
 @if (Model != null)
 {
     <p>@ViewBag.CartIemCount</p>
-    <h4 class="m">Hello @Model.AppUser.FirstName, here Posh Cart</h4>
+    <h4>Hello @Model.AppUser.FirstName, here Posh Cart</h4>
 
+    <div style="align-content:center" class="text-center">
+        <h6 class="alert-success">@TempData["Error"]</h6>
+    </div>
 
     <div>
         <form>
-            <table class="table">
+            <table class="table mt-3">
                 <tr>
                     <th> Name of Product </th>
                     <th> Price </th>
@@ -32,7 +35,7 @@
                         <td> 
                             <a class="btn btn-success" asp-controller="Home" asp-action="Index"> Continue Shopping </a>  
                         </td>
-                        <td> @Html.ActionLink("Delete", "DeleteCartItem", new { cartItemId = cart.CartItemId, shoppingCartId =  cart.ShoppingCartId }) </td>
+                        <td> @Html.ActionLink("Delete", "DeleteCartItem", new { cartItemId = cart.CartItemId, shoppingCartId =  cart.ShoppingCartId, appUserEmail = @User.Identity.Name }) </td>
                     </tr>
                 }
             </table>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PoshBay.Contracts;
 using PoshBay.Data.Models;
 
+
 namespace PoshBay.Controllers
 {
     public class CartController : Controller
@@ -101,10 +102,20 @@ namespace PoshBay.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> DeleteCartItem (string cartItemId, string shoppingCartId)
+        public async Task<IActionResult> DeleteCartItem (string cartItemId, string shoppingCartId, string appUserEmail)
         {
             //Implement  a pop up modal
-            return RedirectToAction("Index", "Home");
+            var cart = await _cartRepo.GetCartAsync(cartItemId);
+            if (cart != null && cart.ShoppingCartId == shoppingCartId)
+            {
+                var result = await _cartRepo.RemoveCartAsync(cart);
+                if(result)
+                    return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
+
+            }
+
+            TempData["Error"] = "Cart could not be deleted";
+            return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
         }
 
         public IActionResult GetCartCount()
