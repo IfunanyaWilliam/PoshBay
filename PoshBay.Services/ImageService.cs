@@ -13,10 +13,10 @@ namespace PoshBay.Services
 {
     public class ImageService : IImageService
     {
-        private readonly CloudinaryConfig _config;
+        private readonly CloudinaryConfiguration _config;
 
         //The IOptions is injected via the constructor to map the configuration to the ImageService
-        public ImageService(IOptions<CloudinaryConfig> config)
+        public ImageService(IOptions<CloudinaryConfiguration> config)
         {
             _config = config.Value;
         }

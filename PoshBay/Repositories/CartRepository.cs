@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PoshBay.Contracts;
 using PoshBay.Data.Data;
 using PoshBay.Data.Models;
+using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace PoshBay.Repositories
@@ -16,9 +17,9 @@ namespace PoshBay.Repositories
             _context = context;
         }
 
-        public async Task<CartItem> GetCartAsync(string cartItemId)
+        public async Task<CartItem> GetCartAsync(Expression<Func<CartItem, bool>> predicate)
         {
-            return await _context.CartItem.FirstOrDefaultAsync(i => i.CartItemId == cartItemId);
+            return await _context.CartItem.AsQueryable().FirstOrDefaultAsync(predicate);
         }
 
         public async Task<bool> AddCartAsync(CartItem cart)

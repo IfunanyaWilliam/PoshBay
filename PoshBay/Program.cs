@@ -18,7 +18,7 @@ if (env.IsDevelopment())
     var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
 }
-else if(env.IsProduction())
+else
 {
     var connectionString = builder.Configuration.GetConnectionString("PostGreSql");
     builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));

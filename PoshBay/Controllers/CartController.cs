@@ -39,7 +39,7 @@ namespace PoshBay.Controllers
             if (shoppingCart != null)
             {
                 //Get cart associated with this shoppingcart
-                var cart = await _cartRepo.GetCartAsync(shoppingCart.ShoppingCartId);
+                var cart = await _cartRepo.GetCartAsync(id => id.ShoppingCartId == shoppingCart.ShoppingCartId);
 
 
                 if (cart != null && cart?.Product?.ProductId == productId)
@@ -105,7 +105,9 @@ namespace PoshBay.Controllers
         public async Task<IActionResult> DeleteCartItem (string cartItemId, string shoppingCartId, string appUserEmail)
         {
             //Implement  a pop up modal
-            var cart = await _cartRepo.GetCartAsync(cartItemId);
+
+            //Get shoppingcart with CartItemId
+            var cart = await _cartRepo.GetCartAsync(c => c.CartItemId == cartItemId);
             if (cart != null && cart.ShoppingCartId == shoppingCartId)
             {
                 var result = await _cartRepo.RemoveCartAsync(cart);
