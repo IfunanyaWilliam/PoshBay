@@ -43,10 +43,12 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAppUserRoles, AppUserRole>();
 
-//Add the services to the builder for Cloudinary by mapping the CloudinaryConfig class to the appsettings.json file
-builder.Services.Configure<CloudinaryConfig>(builder.Configuration.GetSection("Cloudinary"));
+//Add the services to the builder for Cloudinary by mapping the CloudinaryConfiguration class to the appsettings.json file
+builder.Services.Configure<CloudinaryConfiguration>(builder.Configuration.GetSection("Cloudinary"));
 builder.Services.AddScoped<IImageService, ImageService>();
 
+//Add the services to the builder for Stripe by mapping the StripeConfiguration class to the appsettings.json file
+builder.Services.Configure<StripeConfiguration>(builder.Configuration.GetSection("Stripe"));
 
 //Add email service to the builder for Mapping the EmailConfig class to the appsettings.json file MailConfiguration section
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("MailConfiguration"));
