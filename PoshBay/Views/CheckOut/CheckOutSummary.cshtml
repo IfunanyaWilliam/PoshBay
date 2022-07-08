@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using PoshBay.Data.Models;
+@using Microsoft.Extensions.Options;
+@inject IOptions<PoshBay.Services.StripeConfiguration> _strip;
+@inject SignInManager<ApplicationUser> manager;
+
+
+@{
+    ViewData["Tttle"] = "Check Out";
+}
+
+<div>
+    <form asp-action="StripePayment" asp-controller="CheckOut" method="post">
+        <p> Check Out</p>
+        <article>
+            <label> Amount: $ </label>
+        </article>
+    </form>
+</div>
+
+<div class="w-100 d-flex justify-content-center border-0">
+        <ul class="d-flex list-unstyled">
+            <li>
+                <a class="btn btn-success" asp-controller="Cart" asp-action="ViewCart" asp-route-appUserEmail="@User.Identity.Name"> Back To Cart </a>
+            </li>
+            <li class="mx-2">
+                <a class="btn btn-success" asp-controller="CheckOut" asp-action="StripePayment">Preceed to Payment</a>
+            </li>
+        </ul>
+    </div>

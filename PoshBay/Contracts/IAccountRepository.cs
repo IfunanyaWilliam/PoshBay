@@ -7,7 +7,6 @@ namespace PoshBay.Contracts
     public interface IAccountRepository
     {
         Task<IEnumerable<ApplicationUser>> GetAllAsync();
-        ApplicationUser GetById(string id);
 
         //Espression three 
         Task<ApplicationUser> GetAppUser(Expression<Func<ApplicationUser, bool>> predicate);

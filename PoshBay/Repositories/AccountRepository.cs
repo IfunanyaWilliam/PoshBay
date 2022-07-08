@@ -37,11 +37,6 @@ namespace PoshBay.Repositories
             return await _context.ApplicationUsers.OrderBy(u => u.FirstName).ToListAsync();
         }
 
-        public ApplicationUser GetById(string id)
-        {
-            return _context.ApplicationUsers.FirstOrDefault(u => u.AppUserId == id);
-        }
-
         public async Task<ApplicationUser> GetAppUser(Expression<Func<ApplicationUser, bool>> predicate)
         {
             return await _context.ApplicationUsers.AsQueryable().FirstOrDefaultAsync(predicate);
