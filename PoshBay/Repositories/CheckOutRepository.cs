@@ -16,7 +16,7 @@ namespace PoshBay.Repositories
         }
         public async Task<ShoppingCart> GetShoppingCartAsync(Expression<Func<ShoppingCart, bool>> predicate)
         {
-            return await _context.ShoppingCarts.AsQueryable().FirstOrDefaultAsync(predicate);
+            return await _context.ShoppingCarts.Include(c => c.CartItems).Include(a => a.AppUser).AsQueryable().FirstOrDefaultAsync(predicate);
         }
     }
 }
