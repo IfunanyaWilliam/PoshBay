@@ -3,7 +3,12 @@
 @using PoshBay.Data.Models
 @inject SignInManager<ApplicationUser> manager;
 
-
+<script>
+$(document).ready(function() {
+    $("#minusBtn").click(function() { alert("minusBtn clicked"); } );
+    $("#plusBtn").click
+});
+</script>
 
 @if (Model != null)
 {
@@ -20,7 +25,7 @@
                 <tr>
                     <th> Name of Product </th>
                     <th> Price </th>
-                    <th> Selected Quantity </th>
+                    <th> Quantity </th>
                     <th>Total Price</th>
                     <th></th>
                     <th> Remove Item </th>
@@ -33,7 +38,8 @@
                         <td> @cart.SelectedQuantity </td>
                         <td> @cart.TotalPrice </td>
                         <td> 
-                            <a class="btn btn-success" asp-controller="Home" asp-action="Index"> Continue Shopping </a>  
+                            <a class="btn btn-success" id="minusBtn" asp-controller="Home" asp-action="Index"> - </a> &nbsp;  
+                             <a class="btn btn-success" id="plusBtn" asp-controller="Home" asp-action="Index"> + </a> 
                         </td>
                         <td> @Html.ActionLink("Delete Item", "DeleteCartItem", new { cartItemId = cart.CartItemId, shoppingCartId =  cart.ShoppingCartId, appUserEmail = @User.Identity.Name }) </td>
                     </tr>
