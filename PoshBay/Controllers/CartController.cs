@@ -102,7 +102,7 @@ namespace PoshBay.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> DeleteCartItem (string cartItemId, string shoppingCartId, string appUserEmail)
+        public async Task<IActionResult> DeleteCartItem(string cartItemId, string shoppingCartId, string appUserEmail)
         {
             //Implement  a pop up modal
 
@@ -111,7 +111,7 @@ namespace PoshBay.Controllers
             if (cart != null && cart.ShoppingCartId == shoppingCartId)
             {
                 var result = await _cartRepo.RemoveCartAsync(cart);
-                if(result)
+                if (result)
                     return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
 
             }
@@ -124,6 +124,41 @@ namespace PoshBay.Controllers
         {
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> IcreaseCartSelectedQty(string cartItemId, string prodId, string appUserEmail)
+        {
+            var cart = await _cartRepo.GetCartAsync(i => i.CartItemId == cartItemId);
+            var prod = await _prodRepo.GetByIdAsync(prodId);
+            if (cart.SelectedQuantity >= prod.QuantityInStock)
+            {
+                //Send email to store manager or admin
+                TempData["QuantityShortage"] = "Quantity availabe in stock is less than selected quantity. The store manager has been notified";
+                return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
+            }
+            cart.SelectedQuantity++;
+            cart.TotalPrice = prod.Price * cart.SelectedQuantity;
+            await _cartRepo.UpdateCartAsync(cart);
+            return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> DereaseCartSelectedQty(string cartItemId, string prodId, string appUserEmail)
+        {
+            var cart = await _cartRepo.GetCartAsync(i => i.CartItemId == cartItemId);
+            var prod = await _prodRepo.GetByIdAsync(prodId);
+            if(cart.SelectedQuantity == 1)
+            {
+                TempData["QuantityCannotBeZeroErro"] = "Quantity cannot be reduced to zero. Do you want to delete product from cart?";
+                return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
+            }
+            cart.SelectedQuantity--;
+            cart.TotalPrice = prod.Price * cart.SelectedQuantity;
+            await _cartRepo.UpdateCartAsync(cart);
+            return RedirectToAction("ViewCart", new { appUserEmail = appUserEmail });
         }
     }
 }

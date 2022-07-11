@@ -5,7 +5,10 @@
 
 <script>
 $(document).ready(function() {
-    $("#minusBtn").click(function() { alert("minusBtn clicked"); } );
+    $("#minusBtn").click(function() {
+        var currentRow=$(this).closest("tr");
+        var col3=currentRow.find("td:eq(2)").text();
+    });
     $("#plusBtn").click
 });
 </script>
@@ -17,6 +20,14 @@ $(document).ready(function() {
 
     <div style="align-content:center" class="text-center">
         <h6 class="alert-success">@TempData["Error"]</h6>
+    </div>
+    
+    <div style="align-content:center" class="text-center">
+        <h6 class="alert-danger">@TempData["QuantityShortage"]</h6>
+    </div>
+
+    <div style="align-content:center" class="text-center">
+        <h6 class="alert-danger">@TempData["QuantityCannotBeZeroErro"]</h6>
     </div>
 
     <div>
@@ -35,11 +46,11 @@ $(document).ready(function() {
                     <tr>
                         <td> @cart?.Product?.Name </td>
                         <td> @cart?.Product?.Price </td>
-                        <td> @cart.SelectedQuantity </td>
+                        <td id="@cart.Product.ProductId"> @cart.SelectedQuantity </td>
                         <td> @cart.TotalPrice </td>
                         <td> 
-                            <a class="btn btn-success" id="minusBtn" asp-controller="Home" asp-action="Index"> - </a> &nbsp;  
-                             <a class="btn btn-success" id="plusBtn" asp-controller="Home" asp-action="Index"> + </a> 
+                            <a class="btn btn-success" id="minusBtn" asp-controller="Cart" asp-action="DereaseCartSelectedQty" asp-route-cartItemId="@cart.CartItemId" asp-route-prodId="@cart.Product.ProductId" asp-route-appUserEmail="@User.Identity.Name"> - </a> &nbsp;  
+                            <a class="btn btn-success" id="plusBtn" asp-controller="Cart" asp-action="IcreaseCartSelectedQty" asp-route-cartItemId="@cart.CartItemId" asp-route-prodId="@cart.Product.ProductId" asp-route-appUserEmail="@User.Identity.Name"> + </a> 
                         </td>
                         <td> @Html.ActionLink("Delete Item", "DeleteCartItem", new { cartItemId = cart.CartItemId, shoppingCartId =  cart.ShoppingCartId, appUserEmail = @User.Identity.Name }) </td>
                     </tr>
