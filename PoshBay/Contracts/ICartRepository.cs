@@ -12,7 +12,6 @@ namespace PoshBay.Contracts
         Task<bool> AddShoppingCartAsync(ShoppingCart cart);
         Task<bool> UpdateShoppingCartAsync(ShoppingCart cart);
 
-        Task<ShoppingCart> GetShoppingCartAsync(string AppUserId);
         Task<ShoppingCart> GetShoppingCartItemsAsync(string AppUserId);
     }
 }

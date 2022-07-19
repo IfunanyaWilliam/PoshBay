@@ -119,7 +119,8 @@ namespace PoshBay.Controllers
             var IsMailSent = await _emailService.SendEmail(model);
             if (IsMailSent)
             {
-                return RedirectToAction("Index", "Home");
+                TempData["RegistrationSuccessful"] = "You have successfully Registered. Please Login and continue shopping";
+                return RedirectToAction("Login");
             }
             return RedirectToAction("Index", "Home");
         }

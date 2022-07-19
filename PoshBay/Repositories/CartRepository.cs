@@ -34,10 +34,6 @@ namespace PoshBay.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<ShoppingCart> GetShoppingCartAsync(string AppUserId)
-        {
-            return await _context.ShoppingCarts.FirstOrDefaultAsync(i => i.AppUserId == AppUserId);
-        }
 
         public async Task<bool> AddShoppingCartAsync(ShoppingCart cart)
         {
@@ -55,7 +51,7 @@ namespace PoshBay.Repositories
         public async Task<ShoppingCart> GetShoppingCartItemsAsync(string appUserId)
         {
             //CartItems is included b/c its a sub property of ShoppingCart. ThenInclude adds Product which is a sub property of CartItems
-            return await _context.ShoppingCarts.Include(x => x.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(x => x.AppUser.Id == appUserId);
+            return await _context.ShoppingCarts.Include(x => x.CartItems).ThenInclude(p => p.Product).FirstOrDefaultAsync(x => x.AppUserId == appUserId);
         }
 
         public async Task<bool> RemoveCartAsync(CartItem cart)

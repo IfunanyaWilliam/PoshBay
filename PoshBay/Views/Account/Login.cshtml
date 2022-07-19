@@ -9,8 +9,12 @@
       </div>
 
       <div style="align-content:center" class="text-center">
-         <h6 class="alert-success">@TempData["EmailNotFound"]</h6>
+         <h6 class="alert-success">@TempData["RegistrationSuccessful"]</h6>
       </div>
+
+      <div style="align-content:center" class="text-center">
+        <h6 class="alert-danger">@TempData["QuantityCannotBeZeroErro"]</h6>
+    </div>
 
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form asp-controller="Account" asp-action="Login" class="align-items-center" id="account" method="post">
