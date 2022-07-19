@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PoshBay.Data.Data;
 
@@ -11,9 +12,10 @@ using PoshBay.Data.Data;
 namespace PoshBay.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220712233801_Transaction")]
+    partial class Transaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,6 +263,7 @@ namespace PoshBay.Data.Migrations
             modelBuilder.Entity("PoshBay.Data.Models.CartItem", b =>
                 {
                     b.Property<string>("CartItemId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
@@ -361,24 +364,19 @@ namespace PoshBay.Data.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionRef")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TransactionId");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Transactions");
                 });
@@ -448,15 +446,6 @@ namespace PoshBay.Data.Migrations
                 });
 
             modelBuilder.Entity("PoshBay.Data.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("PoshBay.Data.Models.ApplicationUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("PoshBay.Data.Models.Transaction", b =>
                 {
                     b.HasOne("PoshBay.Data.Models.ApplicationUser", "AppUser")
                         .WithMany()

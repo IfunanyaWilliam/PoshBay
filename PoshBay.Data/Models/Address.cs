@@ -12,7 +12,7 @@ namespace PoshBay.Data.Models
     {
 
         [Key]
-        public string AddressId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
+        public string AddressId { get; set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }

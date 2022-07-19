@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PoshBay.Services
 {
-    //These properties will be bound to the Stripe section in appsettings.json file 
+    //These properties will be bound to the Paysatck section in appsettings.json file 
     //and will be used to configure the Stripe payment. 
     //A services will be created in Program.cs file to Map to the StripeConfiguration class.
-    public class StripeConfiguration
+    public class PayStackConfiguration
     {
         public string? SecretKey { get; set; }
-        public string? PublishabelKey { get; set; }
+        public string? PublicKey { get; set; }
     }
 }

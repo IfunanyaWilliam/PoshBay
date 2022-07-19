@@ -3,20 +3,12 @@
 @using PoshBay.Data.Models
 @inject SignInManager<ApplicationUser> manager;
 
-<script>
-$(document).ready(function() {
-    $("#minusBtn").click(function() {
-        var currentRow=$(this).closest("tr");
-        var col3=currentRow.find("td:eq(2)").text();
-    });
-    $("#plusBtn").click
-});
-</script>
+
 
 @if (Model != null)
 {
     <p>@ViewBag.CartIemCount</p>
-    <h4>Hello @Model.AppUser.FirstName, here is your Posh Cart</h4>
+    <h5>Hello @Model.AppUser.FirstName, here is your Cart</h5>
 
     <div style="align-content:center" class="text-center">
         <h6 class="alert-success">@TempData["Error"]</h6>

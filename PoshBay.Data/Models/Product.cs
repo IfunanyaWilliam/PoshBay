@@ -12,10 +12,8 @@ namespace PoshBay.Data.Models
     {
 
         [Key]
-        public string ProductId { get; private set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
-        
+        public string ProductId { get; set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "#");
         public string? Name { get; set; }
-
         public string? Description { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]

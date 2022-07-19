@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PoshBay.Data.Models.Transaction>
+
+
+ <div>
+    <table class="table mt-3">
+                <tr>
+                    <th> Name </th>
+                    <th> Amount </th>
+                    <th> Email </th>
+                    <th>Transaction Reference </th>
+                    <th> Payment Status </th>
+                    <th> Date  </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @item?.AppUser?.FirstName </td>
+                        <td> @item?.Amount </td>
+                        <td> @item?.Email </td>
+                        <td> @item?.TransactionRef </td>
+                        <td> @item?.PaymentStatus </td>
+                        <td> @item?.CreatedOn </td>
+                    </tr>
+                }
+    </table>
+
+    <div class="w-100 d-flex justify-content-center border-0">
+        <ul class="d-flex list-unstyled">
+            <li>
+                <a class="btn btn-success" asp-controller="Home" asp-action="Index"> Back to Shopping </a>
+            </li>
+        </ul>
+    </div>
+
+ </div>

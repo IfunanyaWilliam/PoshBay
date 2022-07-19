@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using PoshBay.Data.Models;
 @using Microsoft.Extensions.Options;
-@inject IOptions<PoshBay.Services.StripeConfiguration> _strip;
+@inject IOptions<PoshBay.Services.PayStackConfiguration> _paystack;
 @inject SignInManager<ApplicationUser> manager;
-@model PoshBay.Data.ViewModels.CheckOutViewModel
+@model PoshBay.Data.ViewModels.TransactionViewModel
 
 
 @{
@@ -13,24 +13,28 @@
 <div>
 </div>
 
+<div style="align-content:center" class="text-center">
+        <h6 class="alert-danger">@TempData["PaymentError"]</h6>
+    </div>
+
 <div class="w-100 d-flex justify-content-start border-0">
 
     <div>
-        <form asp-action="StripePayment" asp-controller="CheckOut" method="post" class="form w-100">
-            
+        <form method="post" class="form w-100" asp-controller="CheckOut" asp-action="CheckOutSummary">
             
             <p class=" display-4"> Proceed To Payment</p>
-            <article class="my-3">
-                <label class="px-5 py-3 bg-white shadow-sm"> <span class="fw-bold">Amount:</span> <span class="text-success"> $@Model.Amount</span>  </label>
+            <article class="my-3 d-flex flex-column justify-content-start align-items-center">
+                <input asp-for="Email" hidden value="@Model?.AppUser?.Email" />
+                <input asp-for="AppUserId" hidden value="@Model?.AppUser?.AppUserId" />
+                <input asp-for="AppUser" hidden value="@Model?.AppUser" />
+                <input hidden asp-for="Amount" value="@Model?.Amount" />
+
+                <label class="px-5 py-3 bg-white shadow-sm w-100"> <span class="fw-bold px-2">Name:</span> <span class="text-success"> @Model?.AppUser?.FirstName &nbsp; @Model?.AppUser?.LastName</span>  </label>
+                <label class="px-5 py-3 bg-white shadow-sm w-100"> <span class="fw-bold px-2">Amount:</span> <span class="text-success"> $@Model?.Amount</span>  </label>
             </article>
             <div class="d-flex justify-content-start align-items-center w-100">
-                <script src="//checkout.stripe.com/v2/checkout.js"
-                        class="stripe-button"
-                        data-key="_strip.Value.PublishableKey"
-                        data-locale="auto"
-                        data-description="Sample Charge">
-                </script>
-                <a class="btn btn-success ms-4" asp-controller="Cart" asp-action="ViewCart" asp-route-appUserEmail="@User.Identity.Name"> Back To Cart </a>
+                <a class="btn btn-success ms-4" asp-controller="Cart" asp-action="ViewCart" asp-route-appUserEmail="@User?.Identity?.Name"> Back To Cart </a>
+                <button type="submit" class="btn btn-success ms-4" > Proceed to Payment </button>
             </div>
             
         </form>

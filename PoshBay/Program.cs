@@ -49,8 +49,8 @@ builder.Services.Configure<CloudinaryConfiguration>(builder.Configuration.GetSec
 builder.Services.AddScoped<IImageService, ImageService>();
 
 //Add the services to the builder for Stripe by mapping the StripeConfiguration class to the appsettings.json file
-builder.Services.Configure<StripeConfiguration>(builder.Configuration.GetSection("Stripe"));
-builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
+builder.Services.Configure<PayStackConfiguration>(builder.Configuration.GetSection("PayStack"));
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 //Add email service to the builder for Mapping the EmailConfig class to the appsettings.json file MailConfiguration section
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("MailConfiguration"));

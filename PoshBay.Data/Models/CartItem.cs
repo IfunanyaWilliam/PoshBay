@@ -11,8 +11,7 @@ namespace PoshBay.Data.Models
     public class CartItem
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? CartItemId { get; set; }
+        public string? CartItemId { get; set; } = Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "@");
         public int SelectedQuantity { get; set; }
         public Product? Product { get; set; }
         public decimal TotalPrice { get; set; }
