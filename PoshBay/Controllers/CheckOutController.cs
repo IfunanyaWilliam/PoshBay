@@ -87,7 +87,7 @@ namespace PoshBay.Controllers
                 {
                     transaction.PaymentStatus = "Completed"; 
                     await _checkOutRepo.UpdateTransactionAsync(transaction);
-                    RedirectToAction();
+                    RedirectToAction("Payments");
                 }
             }
             TempData["PaymentError"] = verify.Data.GatewayResponse;
