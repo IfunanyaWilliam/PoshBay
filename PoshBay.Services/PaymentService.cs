@@ -31,7 +31,7 @@ namespace PoshBay.Services
                 Email        = transaction.Email,
                 Reference    = RandomNumber().ToString(),
                 Currency     = "NGN",
-                CallbackUrl  = "https://localhost:7207/CheckOut/PaymentDetails"    //Return URL when payment processing is done from Paystack
+                CallbackUrl  = "https://localhost:7207/CheckOut/Verify"    //Return URL when payment processing is done from Paystack
             };
 
             return request;

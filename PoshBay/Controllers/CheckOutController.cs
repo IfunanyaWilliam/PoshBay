@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PoshBay.Contracts;
 using PoshBay.Data.Models;
@@ -12,14 +13,17 @@ namespace PoshBay.Controllers
         private readonly ICheckOutRepository _checkOutRepo;
         private readonly IPaymentService _payment;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _manager;
 
         public CheckOutController(ICheckOutRepository checkOutRepo,
                                   IPaymentService payment,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  UserManager<ApplicationUser> manager)
         {
             _checkOutRepo   = checkOutRepo;
             _payment        = payment;
             _mapper         = mapper;
+            _manager = manager;
         }
 
 
@@ -42,6 +46,7 @@ namespace PoshBay.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOutSummary(TransactionViewModel model)
         {
+            var user = await _manager.FindByEmailAsync(model.Email);
             var request  = await _payment.Request(model);
             var response = _payment.Response(request);
             if (response.Status) 
@@ -49,25 +54,25 @@ namespace PoshBay.Controllers
                 var transaction = new Transaction()
                 {
                     Amount = model.Amount,
-                    AppUser = model.AppUser,
+                    AppUser = user,
                     Email = model.Email,
-                    TransactionRef = model.TransactionRef,
+                    TransactionRef = request.Reference,
                     PaymentStatus = "Pending",
                     AppUserId = model.AppUser?.Id
-                };
+                }; 
 
                 //Insert new transaction to database
                 await _checkOutRepo.AddTransactionAsync(transaction);
 
-                Redirect(response.Data.AuthorizationUrl);
-
+                return Redirect(response.Data.AuthorizationUrl);
             }
-            TempData["PaymentError"] = response.Message;
+
+            TempData["PaymentError"] = response.Message; 
             var updateTransaction = await _checkOutRepo.GetTransactionAsync(user => user.Email == model.Email);
             if (updateTransaction != null)
             {
                 updateTransaction.PaymentStatus = "Failed";
-                await _checkOutRepo.UpdateTransactionAsync(updateTransaction);
+                await _checkOutRepo.UpdateTransactionAsync(updateTransaction);  
             }
             return View(model);
         }
@@ -91,7 +96,7 @@ namespace PoshBay.Controllers
 
         public async Task<IActionResult> Payments(string email)
         {
-            var transction = await _checkOutRepo.GetTransactionAsync(e => e.Email == email);
+            var transction = await _checkOutRepo.GetTransactionsAsync(e => e.Email == email);
             return View(transction);
         }
 

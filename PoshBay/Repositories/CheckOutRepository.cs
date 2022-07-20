@@ -37,5 +37,9 @@ namespace PoshBay.Repositories
             return await _context.Transactions.AsQueryable().Include(a => a.AppUser).FirstOrDefaultAsync(predicate);
         }
 
+        public async Task<IEnumerable<Transaction>> GetTransactionsAsync(Expression<Func<Transaction, bool>> predicate)
+        {
+            return await _context.Transactions.AsQueryable().Include(a => a.AppUser).Where(predicate).ToListAsync();
+        }
     }
 }

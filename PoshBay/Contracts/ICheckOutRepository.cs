@@ -10,6 +10,7 @@ namespace PoshBay.Contracts
 
         Task<bool> AddTransactionAsync(Transaction model);
         Task<Transaction> GetTransactionAsync(Expression<Func<Transaction, bool>> predicate);
+        Task<IEnumerable<Transaction>> GetTransactionsAsync(Expression<Func<Transaction, bool>> predicate);
         Task<bool> UpdateTransactionAsync(Transaction transaction);
     }
 }

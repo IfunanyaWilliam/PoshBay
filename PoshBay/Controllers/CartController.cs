@@ -48,7 +48,7 @@ namespace PoshBay.Controllers
                     cart.TotalPrice = cart.SelectedQuantity * cart.Product.Price;
 
                     await _cartRepo.UpdateCartAsync(cart);
-                    ViewBag.CartCount = shoppingCart?.CartItems?.Count;
+                    TempData["CartCount"] = shoppingCart?.CartItems?.Count();
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -61,7 +61,8 @@ namespace PoshBay.Controllers
                 };
 
                 var create = await _cartRepo.AddCartAsync(newCartItem);
-                return RedirectToAction("ViewCart", new { appUserEmail = user.Email });
+                TempData["CartCount"] = shoppingCart?.CartItems?.Count();
+                return RedirectToAction("Index", "Home");
             }
 
             var newshoppingCart = new ShoppingCart
@@ -84,11 +85,10 @@ namespace PoshBay.Controllers
 
             if (result)
             {
-                ViewBag.CartIemCount = newshoppingCart?.CartItems?.Count;
-                return RedirectToAction("ViewCart", new { appUserEmail = user?.Email });
+                TempData["CartCount"] = newshoppingCart?.CartItems?.Count();
+                return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.CartIemCount = shoppingCart?.CartItems?.Count;
             return RedirectToAction("Index");
         }
 

@@ -25,6 +25,7 @@
             <p class=" display-4"> Proceed To Payment</p>
             <article class="my-3 d-flex flex-column justify-content-start align-items-center">
                 <input asp-for="Email" hidden value="@Model?.AppUser?.Email" />
+                <input asp-for="TransactionRef" hidden value="@Model?.TransactionRef" />
                 <input asp-for="AppUserId" hidden value="@Model?.AppUser?.AppUserId" />
                 <input asp-for="AppUser" hidden value="@Model?.AppUser" />
                 <input hidden asp-for="Amount" value="@Model?.Amount" />
