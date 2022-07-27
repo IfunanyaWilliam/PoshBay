@@ -90,9 +90,6 @@ app.UseAuthentication();
 app.UseAuthorization(); 
 app.MapRazorPages();
 
-//My custom methods to ensure database creation in Production Environment
-DatabaseEnsureCreated();
-
 
 app.MapControllerRoute(
     name: "default",
@@ -110,11 +107,3 @@ void SeedData()
     }
 }
 
-void DatabaseEnsureCreated()
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        context.Database.EnsureCreated();
-    }
-}

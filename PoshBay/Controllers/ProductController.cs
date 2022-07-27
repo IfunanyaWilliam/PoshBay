@@ -113,7 +113,7 @@ namespace PoshBay.Controllers
                 {
                     //Map product back to productDTO and return to view
                     var prodToDTO = _mapper.Map<ProductEditDTO>(productToEdit);
-                    ViewBag.Message = _productRepo.GetAllCategory(); 
+                    ViewBag.Message = _productRepo.GetAllCategory();
                     TempData["Error"] = "Could not update product";
                     return View(productToEdit);
                 }
