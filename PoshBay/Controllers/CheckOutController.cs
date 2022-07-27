@@ -80,6 +80,7 @@ namespace PoshBay.Controllers
         public async Task<IActionResult> Verify(string reference)
         {
             var verify = await _payment.VerifyPayment(reference);
+           
             if(verify.Data.Status == "success")
             {
                 var transaction = await _checkOutRepo.GetTransactionAsync(r => r.TransactionRef == reference);

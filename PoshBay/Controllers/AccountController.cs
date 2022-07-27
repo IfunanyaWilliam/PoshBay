@@ -32,7 +32,8 @@ namespace PoshBay.Controllers
 
         public IActionResult Login()
         {
-            return View(new LoginViewModel());
+            var model = new LoginViewModel();
+            return View(model);
         }
 
         [HttpPost]
