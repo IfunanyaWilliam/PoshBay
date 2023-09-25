@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Identity;
 using PoshBay.Data.Data;
 using PoshBay.Data.Models;
 using System;
@@ -46,8 +47,8 @@ namespace PoshBay.Services
                     IsAdmin = true,
                 };
 
-                await _userManager.CreateAsync(adminUser, Environment.GetEnvironmentVariable("DefaultAdmin"));
-                await _userManager.AddToRoleAsync(adminUser, AppRoles.ADMIN);
+                await _userManager.CreateAsync(adminUser, Environment.GetEnvironmentVariable("DefaultAdmin")); 
+                await _userManager.AddToRoleAsync(adminUser, AppRoles.ADMIN); 
             }
         }
     }
