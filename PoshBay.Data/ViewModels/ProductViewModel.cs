@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PoshBay.Data.Extensions;
+using PoshBay.Data.Attributes;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,7 +22,7 @@ namespace PoshBay.Data.ViewModels
         [Required(ErrorMessage = "Please enter the quantity of the product")]
         public int QuantityInStock { get; set; }
 
-        [AllowedExtension(new string[] {".jpd", ".png", ".jpeg"})]
+        [AllowedExtensions(new string[] {".jpg", ".png", ".jpeg"})]
         [Required(ErrorMessage = "Please upload an image of the product")]
         public IFormFile? ImagePath { get; set; }
         

@@ -1,4 +1,4 @@
-﻿using PoshBay.Data.Extensions;
+﻿using PoshBay.Data.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace PoshBay.DTO
@@ -26,7 +26,7 @@ namespace PoshBay.DTO
         public string? ImagePath { get; set; }
 
         //Get the new file to be uploaded
-        [AllowedExtension(new string[] { ".jpd", ".png", ".jpeg" })]
+        [AllowedExtensions(new string[] { ".jpd", ".png", ".jpeg" })]
         public IFormFile? NewImagePath { get; set; }
         public string? CategoryId { get; set; }
     }

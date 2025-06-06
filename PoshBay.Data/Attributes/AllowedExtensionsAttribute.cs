@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace PoshBay.Data.Extensions
+namespace PoshBay.Data.Attributes
 {
-    public class AllowedExtensionAttribute : ValidationAttribute
+    public class AllowedExtensionsAttribute : ValidationAttribute
     {
 
         private readonly string[] _extensions;
 
-        public AllowedExtensionAttribute(string[] extendions)
+        public AllowedExtensionsAttribute(string[] extendions)
         {
                 _extensions = extendions;
         }
