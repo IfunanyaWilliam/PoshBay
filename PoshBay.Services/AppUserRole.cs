@@ -47,7 +47,8 @@ namespace PoshBay.Services
                     IsAdmin = true,
                 };
 
-                await _userManager.CreateAsync(adminUser, Environment.GetEnvironmentVariable("DefaultAdmin")); 
+                var password = Environment.GetEnvironmentVariable("DefaultAdmin", EnvironmentVariableTarget.Machine);
+                await _userManager.CreateAsync(adminUser, password); 
                 await _userManager.AddToRoleAsync(adminUser, AppRoles.ADMIN); 
             }
         }
